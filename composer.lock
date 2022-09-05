@@ -5416,7 +5416,7 @@
                 "lcobucci/jwt": "<3.4",
                 "namshi/jose": "^7.0",
                 "nesbot/carbon": "^1.0|^2.0",
-                "php": "^8.*"
+                "php": "8.*"
             },
             "require-dev": {
                 "illuminate/console": "^5.2|^6|^7|^8",
