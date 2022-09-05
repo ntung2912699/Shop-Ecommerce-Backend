@@ -17,4 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+\Illuminate\Support\Facades\Auth::routes();
+
 Route::get('/home', [\App\Http\Controllers\Client\Index\HomeController::class, 'index'])->name('home');
