@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('thumbnail');
             $table->text('gallery');
-            $table->decimal('price');
+            $table->decimal('price', 13, 0);
             $table->integer('quantity');
             $table->longText('short_description');
             $table->string('status');

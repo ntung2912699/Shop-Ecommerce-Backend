@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('shiping_method_id');
             $table->unsignedBigInteger('status_id');
             $table->string('phone_number');
-            $table->decimal('grand_total');
+            $table->decimal('grand_total', 13, 0);
             $table->text('note');
             $table->timestamps();
 

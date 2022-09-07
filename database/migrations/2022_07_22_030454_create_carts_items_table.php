@@ -17,7 +17,7 @@ class CreateCartsItemsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('carts_id');
             $table->unsignedBigInteger('products_id');
-            $table->decimal('price');
+            $table->decimal('price', 13, 0);
             $table->integer('quantity');
             $table->timestamps();
 

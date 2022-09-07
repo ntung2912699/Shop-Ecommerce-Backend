@@ -47,7 +47,7 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+//        try {
             $data = $request->all();
             if($request->hasFile('thumbnail')){
                 $file = $request->file('thumbnail');
@@ -66,9 +66,9 @@ class ProductsController extends Controller
             }
             $this->productRepo->create($data);
             return response()->json(['success' => 'create product successfully']);
-        }catch ( \Exception $exception){
-            return response()->json(['error' => 'create product unsuccessfully']);
-        }
+//        }catch ( \Exception $exception){
+//            return response()->json(['error' => 'create product unsuccessfully']);
+//        }
     }
 
     /**

@@ -17,7 +17,7 @@ class CreateShipingMethodTable extends Migration
             $table->id();
             $table->unsignedBigInteger('transporters_id');
             $table->string('name')->unique();
-            $table->decimal('postage');
+            $table->decimal('postage', 13, 0);
             $table->timestamps();
 
             $table->foreign('transporters_id')
