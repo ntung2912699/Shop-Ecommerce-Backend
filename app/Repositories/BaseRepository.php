@@ -116,7 +116,9 @@ abstract class BaseRepository implements RepositoryInterface
      */
     public function obj_search($key)
     {
-        $result = $this->model->where('name', 'like', "%$key%")->take(5)->get();
+        $result = $this->model
+            ->where('name', 'LIKE', '%' . $key . '%')
+            ->get();
         return $result;
     }
 

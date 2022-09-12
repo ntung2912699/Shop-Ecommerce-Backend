@@ -193,9 +193,9 @@ class ProductsController extends Controller
         try {
             $key = $request->get('search');
             $result = $this->productRepo->obj_search($key);
-            return response()->json([ 'success' => $result ]);
+            return response()->json([ 'success' => $result ], 201);
         }catch (\Exception $exception){
-            return response()->json(['no result']);
+            return response()->json(['no result'], 401);
         }
     }
 }

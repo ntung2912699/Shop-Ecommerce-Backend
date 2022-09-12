@@ -15,14 +15,12 @@ class CreateShipingAddressTable extends Migration
     {
         Schema::create('shiping_address', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('users_profile_id');
-            $table->string('country');
+            $table->string('customer_name');
+            $table->string('phone_number');
             $table->string('city');
             $table->string('district');
             $table->string('wards');
-            $table->string('street');
-            $table->string('apartment_number');
-            $table->string('zip_code');
+            $table->string('address');
             $table->string('status');
             $table->timestamps();
 
