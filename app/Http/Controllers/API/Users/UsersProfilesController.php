@@ -135,6 +135,6 @@ class UsersProfilesController extends Controller
     public function get_address_by_user($user_id){
         $user = $this->userRepo->find($user_id);
         $user->address = $user->address;
-        return response()->json(['address' => $user], 201);
+        return response()->json(['user' => $user], 201);
     }
 }
