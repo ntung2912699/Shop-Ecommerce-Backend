@@ -15,6 +15,7 @@ class CreateShipingAddressTable extends Migration
     {
         Schema::create('shiping_address', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('users_id');
             $table->string('customer_name');
             $table->string('phone_number');
             $table->string('city');
@@ -24,9 +25,9 @@ class CreateShipingAddressTable extends Migration
             $table->string('status');
             $table->timestamps();
 
-            $table->foreign('users_profile_id')
+            $table->foreign('users_id')
                 ->references('id')
-                ->on('users_profile');
+                ->on('users');
         });
     }
 
