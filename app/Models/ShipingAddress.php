@@ -31,7 +31,7 @@ class ShipingAddress extends Model
         'updated_at'
     ];
 
-    public function user_profile(){
-        return $this->belongsTo(UsersProfile::class, 'id');
+    public function users(){
+        return $this->belongsTo(User::class, 'id');
     }
 }

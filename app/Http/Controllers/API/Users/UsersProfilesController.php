@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Users;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\UsersRepository\UsersProfileRepository;
+use App\Repositories\UsersRepository\UsersRepository;
 use Illuminate\Http\Request;
 
 class UsersProfilesController extends Controller
@@ -14,11 +15,21 @@ class UsersProfilesController extends Controller
     protected $usersProfileRepo;
 
     /**
-     * @param UsersProfileRepository $usersProfileRepo
+     * @var UsersRepository
      */
-    public function __construct( UsersProfileRepository $usersProfileRepo )
+    protected $userRepo;
+
+    /**
+     * @param UsersProfileRepository $usersProfileRepo
+     * @param UsersRepository $userRepo
+     */
+    public function __construct(
+        UsersProfileRepository $usersProfileRepo,
+        UsersRepository $userRepo
+    )
     {
         $this->usersProfileRepo = $usersProfileRepo;
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -115,5 +126,15 @@ class UsersProfilesController extends Controller
            $profile->address = $item->shipping_address;
        }
        return response()->json(['profile' => $profile], 201);
+    }
+
+    /**
+     * @param $user_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function get_address_by_user($user_id){
+        $user = $this->userRepo->find($user_id);
+        $user->address = $user->address;
+        return response()->json(['address' => $user], 201);
     }
 }

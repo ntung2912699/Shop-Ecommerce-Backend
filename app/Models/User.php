@@ -69,4 +69,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Carts::class,'users_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function address()
+    {
+        return $this->hasMany(ShipingAddress::class,'users_id');
+    }
 }

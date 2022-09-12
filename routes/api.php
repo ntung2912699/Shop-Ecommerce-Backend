@@ -93,6 +93,7 @@ function ($router) {
     Route::post('/update-profile/{id}', [\App\Http\Controllers\API\Users\UsersProfilesController::class, 'update']);
     Route::delete('/destroy-profile/{id}', [\App\Http\Controllers\API\Users\UsersProfilesController::class, 'destroy']);
     Route::get('/get-profile-by-user/{id}', [\App\Http\Controllers\API\Users\UsersProfilesController::class, 'get_profile_by_user']);
+    Route::get('/get-address-by-user/{id}', [\App\Http\Controllers\API\Users\UsersProfilesController::class, 'get_address_by_user']);
 
 
     /**
