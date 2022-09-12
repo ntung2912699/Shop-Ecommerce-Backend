@@ -19,14 +19,14 @@ class ShipingAddress extends Model
      */
     protected $fillable = [
         'id',
-        'users_profile_id',
-        'country',
+        'users_id',
+        'customer_name',
+        'phone_number',
         'city',
         'district',
         'wards',
-        'street',
-        'apartment_number',
-        'zip_code',
+        'address',
+        'status',
         'created_at',
         'updated_at'
     ];
