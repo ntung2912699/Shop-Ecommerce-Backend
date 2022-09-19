@@ -56,9 +56,9 @@ class OrdersController extends Controller
                     $i->list_attribute_order;
                 }
             }
-            return response()->json(['success' => $obj]);
+            return response()->json($obj, 200);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -82,11 +82,11 @@ class OrdersController extends Controller
             $order_item = $request->all('order_item');
             $order = $this->orderRepository->create($data_order);
             foreach ($order_item as $item){
-                $this->create_order_product( $order->id , $order_item);
+                $this->create_order_product( $order->id , $item);
             }
-            return response()->json(['create success'], 201);
+            return response()->json('create success', 201);
         }catch ( \Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -98,9 +98,9 @@ class OrdersController extends Controller
     {
         try {
             $order = $this->orderRepository->find($id);
-            return response()->json([ $order], 201 );
+            return response()->json( $order , 201 );
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json( 'sorry we can do that', 401);
         }
     }
 
@@ -114,9 +114,9 @@ class OrdersController extends Controller
         try {
             $data = $request->all();
             $order = $this->orderRepository->update( $id, $data );
-            return response()->json([$order], 201);
+            return response()->json( $order , 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json( 'sorry we can do that', 401);
         }
     }
 
@@ -128,9 +128,9 @@ class OrdersController extends Controller
     {
         try {
             $this->orderRepository->delete($id);
-            return response()->json(['delete success'], 201);
+            return response()->json( 'delete success', 201);
         }catch (\Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json( 'sorry we can do that', 401);
         }
     }
 
@@ -186,13 +186,13 @@ class OrdersController extends Controller
             $status_id = $request->all('status_id');
             $order = $this->orderRepository->find($id);
             if ($status_id['status_id'] <= $order->status_id){
-                return response()->json(['sorry we can do that'], 401);
+                return response()->json( 'sorry we can do that', 401);
             }
             $this->orderRepository->update($id, $status_id);
-            return response()->json(['update success'], 201);
+            return response()->json( 'update success', 201);
         }catch (\Exception $exception)
         {
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 }

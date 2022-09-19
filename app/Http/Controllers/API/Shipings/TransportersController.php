@@ -30,9 +30,9 @@ class TransportersController extends Controller
     {
         try {
             $obj = $this->transportersRepo->getAll();
-            return response()->json([$obj], 201);
+            return response()->json($obj, 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -51,9 +51,9 @@ class TransportersController extends Controller
                 $data['logo'] = url($file_name);
             }
             $obj = $this->transportersRepo->create($data);
-            return response()->json([$obj], 201);
+            return response()->json($obj, 201);
         }catch ( \Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -65,9 +65,9 @@ class TransportersController extends Controller
     {
         try {
             $obj = $this->transportersRepo->find($id);
-            return response()->json([ $obj ], 201);
+            return response()->json( $obj , 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -87,9 +87,9 @@ class TransportersController extends Controller
                 $data['logo'] = url($file_name);
             }
             $obj = $this->transportersRepo->update( $id, $data );
-            return response()->json([$obj], 201);
+            return response()->json($obj, 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -101,9 +101,9 @@ class TransportersController extends Controller
     {
         try {
             $this->transportersRepo->delete($id);
-            return response()->json(['deleted success'], 201);
+            return response()->json('deleted success', 201);
         }catch (\Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 

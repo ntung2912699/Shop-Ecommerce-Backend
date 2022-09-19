@@ -90,9 +90,9 @@ class CartsController extends Controller
                     $i->list_attribute_cart;
                 }
             }
-            return response()->json([$cart], 201);
+            return response()->json( $cart, 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -116,16 +116,16 @@ class CartsController extends Controller
                 ];
                 $cart_item = $this->cartItemRepository->create($item_cart_data);
                 $this->save_cart_attribute( $cart_item->id, $request->input('attributes_value_id'));
-                return response()->json(['new cart success']);
+                return response()->json('new cart success', 201);
             }else{
                 $this->update_item_cart(
                     $cart_data,
                     $request
                 );
-                return response()->json(['item add success'], 201);
+                return response()->json('item add success', 201);
             }
         }catch ( \Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -137,9 +137,9 @@ class CartsController extends Controller
     {
         try {
             $cart = $this->cartRepository->find($id);
-            return response()->json([$cart], 201);
+            return response()->json($cart, 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -153,9 +153,9 @@ class CartsController extends Controller
         try {
             $data = $request->all();
             $cart = $this->cartRepository->update( $id, $data );
-            return response()->json([$cart], 201);
+            return response()->json($cart, 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -167,9 +167,9 @@ class CartsController extends Controller
     {
         try {
             $this->cartRepository->delete($id);
-            return response()->json([], 201);
+            return response()->json('deleted success', 201);
         }catch (\Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -227,9 +227,9 @@ class CartsController extends Controller
                 $this->cartAttributeRepo->delete($id_attr);
             }
             $this->cartItemRepository->delete($id);
-            return response()->json(['delete item success'], 201);
+            return response()->json('delete item success', 201);
         }catch (\Exception $exception){
-            return response()->json(['delete item cart error'], 401);
+            return response()->json('delete item cart error', 401);
         }
     }
 
@@ -246,9 +246,9 @@ class CartsController extends Controller
                 $data_update['quantity'] = $qty_items - 1;
             }
             $this->cartItemRepository->update($id, $data_update);
-            return response()->json(['update item success'], 201);
+            return response()->json('update item success', 201);
         }catch (\Exception $exception){
-            return response()->json(['update item error'], 401);
+            return response()->json('update item error', 401);
         }
     }
 
@@ -286,9 +286,9 @@ class CartsController extends Controller
                     $value->attribute = $this->attributeRepository->find($value->attributevalue->attribute_id);
                 }
             }
-            return response()->json([$cart_users], 201);
+            return response()->json( $cart_users, 201);
         }catch (\Exception $exception){
-            return response()->json(["not find cart by user"], 401);
+            return response()->json('not find cart by user', 401);
         }
     }
 

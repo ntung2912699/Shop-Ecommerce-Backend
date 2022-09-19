@@ -39,9 +39,9 @@ class ProductsController extends Controller
     {
         try {
             $products = $this->productRepo->getAll();
-            return response()->json([$products], 201);
+            return response()->json($products, 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -69,9 +69,9 @@ class ProductsController extends Controller
                 $data['gallery'] = implode("|", $listgallery);
             }
             $product = $this->productRepo->create($data);
-            return response()->json([$product], 201);
+            return response()->json($product, 201);
         }catch ( \Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -107,9 +107,9 @@ class ProductsController extends Controller
             $product->brand = $brand;
             $product->category = $catgory;
             $product->specs = $spec;
-            return response()->json([ $product ], 201);
+            return response()->json( $product , 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -138,9 +138,9 @@ class ProductsController extends Controller
                 $data['gallery'] = implode("|", $listgallery);
             }
             $product = $this->productRepo->update( $id, $data );
-            return response()->json([$product], 201);
+            return response()->json($product, 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -152,9 +152,9 @@ class ProductsController extends Controller
     {
         try {
             $this->productRepo->delete($id);
-            return response()->json(['deleted success'], 201);
+            return response()->json('deleted success', 201);
         }catch (\Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -165,9 +165,9 @@ class ProductsController extends Controller
     public function get_attribute($id){
         try {
             $result = $this->productRepo->get_attribute_for_product($id);
-            return response()->json([$result], 201);
+            return response()->json($result, 201);
         }catch (\Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -178,9 +178,9 @@ class ProductsController extends Controller
     {
         try {
             $products = $this->productRepo->get_new_produts();
-            return response()->json([$products], 201);
+            return response()->json($products, 201);
         }catch (\Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -193,9 +193,9 @@ class ProductsController extends Controller
         try {
             $key = $request->get('search');
             $result = $this->productRepo->obj_search($key);
-            return response()->json([ $result ], 201);
+            return response()->json( $result , 201);
         }catch (\Exception $exception){
-            return response()->json(['no result'], 401);
+            return response()->json('no result', 401);
         }
     }
 }

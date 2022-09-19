@@ -40,9 +40,9 @@ class UsersProfilesController extends Controller
     {
         try {
             $users = $this->usersProfileRepo->getAll();
-            return response()->json([ $users ], 201);
+            return response()->json( $users , 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -61,9 +61,9 @@ class UsersProfilesController extends Controller
                 $data['avatar'] = url($file_name);
             }
             $users = $this->usersProfileRepo->create($data);
-            return response()->json([$users], 201);
+            return response()->json($users, 201);
         }catch ( \Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -75,9 +75,9 @@ class UsersProfilesController extends Controller
     {
         try {
             $obj = $this->usersProfileRepo->find($id);
-            return response()->json([ $obj ], 201);
+            return response()->json( $obj , 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -97,9 +97,9 @@ class UsersProfilesController extends Controller
                 $data['avatar'] = url($file_name);
             }
             $obj = $this->usersProfileRepo->update( $id, $data );
-            return response()->json([$obj], 201);
+            return response()->json($obj, 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -111,9 +111,9 @@ class UsersProfilesController extends Controller
     {
         try {
             $this->usersProfileRepo->delete($id);
-            return response()->json(['deleted success'], 201);
+            return response()->json('deleted success', 201);
         }catch (\Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -125,9 +125,9 @@ class UsersProfilesController extends Controller
         try {
             $user = $this->userRepo->find($user_id);
             $profile = $user->profile;
-            return response()->json([$profile], 201);
+            return response()->json($profile, 201);
         }catch (\Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -140,9 +140,9 @@ class UsersProfilesController extends Controller
             $user = $this->userRepo->find($user_id);
             $user->address = $user->address;
             $user->profile = $user->profile;
-            return response()->json(['user' => $user], 201);
+            return response()->json($user, 201);
         }catch (\Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 }

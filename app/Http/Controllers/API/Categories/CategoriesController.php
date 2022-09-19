@@ -33,9 +33,9 @@ class CategoriesController extends Controller
 //            foreach ($categories as $cate){
 //                $brand = $cate->relationship_for_brands;
 //            }
-            return response()->json([$categories], 201);
+            return response()->json( $categories , 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -54,9 +54,9 @@ class CategoriesController extends Controller
                 $data['logo'] = url($file_name);;
             }
             $category = $this->categoriesRepo->create($data);
-            return response()->json([$category], 201);
+            return response()->json( $category, 201);
         }catch ( \Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json( 'sorry we can do that', 401);
         }
     }
 
@@ -69,9 +69,9 @@ class CategoriesController extends Controller
         try {
             $category = $this->categoriesRepo->find($id);
             $category->relationship_for_brands;
-            return response()->json([$category], 201);
+            return response()->json( $category , 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json( 'sorry we can do that', 401);
         }
     }
 
@@ -91,9 +91,9 @@ class CategoriesController extends Controller
                 $data['logo'] = url($file_name);
             }
             $category = $this->categoriesRepo->update( $id, $data );
-            return response()->json([$category], 201);
+            return response()->json( $category , 201);
         }catch ( \Exception $exception ){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json( 'sorry we can do that', 401);
         }
     }
 
@@ -105,9 +105,9 @@ class CategoriesController extends Controller
     {
         try {
             $this->categoriesRepo->delete($id);
-            return response()->json(['deleted success'], 201);
+            return response()->json('deleted success', 201);
         }catch (\Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -119,9 +119,9 @@ class CategoriesController extends Controller
     {
         try {
             $categories = $this->categoriesRepo->get_product_by_categories($id);
-            return response()->json([$categories], 201);
+            return response()->json( $categories, 201);
         }catch (\Exception $exception){
-            return response()->json(['sorry we can do that'], 401);
+            return response()->json('sorry we can do that', 401);
         }
     }
 
@@ -134,9 +134,9 @@ class CategoriesController extends Controller
         try {
             $key = $request->all();
             $categories = $this->categoriesRepo->obj_search($key);
-            return response()->json([$categories], 201);
+            return response()->json( $categories , 201);
         }catch (\Exception $exception){
-            return response()->json(['no result'], 401);
+            return response()->json( 'no result', 401);
         }
     }
 }
