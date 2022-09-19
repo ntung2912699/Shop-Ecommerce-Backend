@@ -30,7 +30,7 @@ class UsersProfile extends Model
         'updated_at'
     ];
 
-    public function shipping_address(){
-        return $this->hasMany(ShipingAddress::class, 'users_profile_id');
+    public function users(){
+        return $this->belongsTo(User::class, 'id');
     }
 }
