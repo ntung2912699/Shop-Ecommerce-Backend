@@ -55,9 +55,9 @@ class UsersProfilesController extends Controller
             $data = $request->all();
             if($request->hasFile('avatar')){
                 $file = $request->file('avatar');
-                $source = 'upload/users/avatar';
+                $source = 'upload/users/avatar/';
                 $file_name = $this->usersProfileRepo->upload($file , $source);
-                $data['avatar'] = $file_name;
+                $data['avatar'] = url($file_name);
             }
             $this->usersProfileRepo->create($data);
             return response()->json(['success' => 'create users profile successfully']);
@@ -91,7 +91,7 @@ class UsersProfilesController extends Controller
             $data = $request->all();
             if($request->hasFile('avatar')){
                 $file = $request->file('avatar');
-                $source = 'upload/users/avatar';
+                $source = 'upload/users/avatar/';
                 $file_name = $this->usersProfileRepo->upload($file , $source);
                 $data['avatar'] = url($file_name);
             }
