@@ -121,10 +121,8 @@ class UsersProfilesController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function get_profile_by_user($user_id){
-       $profile = $this->usersProfileRepo->get_user_profile($user_id);
-       foreach ($profile as $item) {
-           $profile->address = $item->shipping_address;
-       }
+       $user = $this->userRepo->find($user_id);
+       $profile = $user->profile;
        return response()->json(['profile' => $profile], 201);
     }
 
