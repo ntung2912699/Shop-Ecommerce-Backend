@@ -27,10 +27,10 @@ class OrdersStatusController extends Controller
     public function index()
     {
         try {
-            $obj = $this->orderStatusRepo->getAll();
-            return response()->json(['success' => $obj]);
+            $status = $this->orderStatusRepo->getAll();
+            return response()->json([$status], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -42,10 +42,10 @@ class OrdersStatusController extends Controller
     {
         try {
             $data = $request->all();
-            $this->orderStatusRepo->create($data);
-            return response()->json(['success' => 'create status successfully']);
+            $status = $this->orderStatusRepo->create($data);
+            return response()->json([$status], 201);
         }catch ( \Exception $exception){
-            return response()->json(['error' => 'create status unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -56,10 +56,10 @@ class OrdersStatusController extends Controller
     public function show($id)
     {
         try {
-            $obj = $this->orderStatusRepo->find($id);
-            return response()->json([ 'success' => $obj ]);
+            $status = $this->orderStatusRepo->find($id);
+            return response()->json([ $status ], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -72,10 +72,10 @@ class OrdersStatusController extends Controller
     {
         try {
             $data = $request->all();
-            $obj = $this->orderStatusRepo->update( $id, $data );
-            return response()->json(['success' => 'update status success', $obj]);
+            $status = $this->orderStatusRepo->update( $id, $data );
+            return response()->json([$status], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'create status unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -87,9 +87,9 @@ class OrdersStatusController extends Controller
     {
         try {
             $this->orderStatusRepo->delete($id);
-            return response()->json(['success' => 'delete status successfully']);
+            return response()->json(['deleted success'], 201);
         }catch (\Exception $exception){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 }

@@ -27,10 +27,10 @@ class ProductsReviewController extends Controller
     public function index()
     {
         try {
-            $obj = $this->productReviewRepo->getAll();
-            return response()->json(['success' => $obj]);
+            $review = $this->productReviewRepo->getAll();
+            return response()->json([$review], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -48,10 +48,10 @@ class ProductsReviewController extends Controller
                 $file_name = $this->productReviewRepo->upload($file , $source);
                 $data['media'] = $file_name;
             }
-            $this->productReviewRepo->create($data);
-            return response()->json(['success' => 'create product review successfully']);
+            $review = $this->productReviewRepo->create($data);
+            return response()->json([$review], 201);
         }catch ( \Exception $exception){
-            return response()->json(['error' => 'create product review unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -62,10 +62,10 @@ class ProductsReviewController extends Controller
     public function show($id)
     {
         try {
-            $obj = $this->productReviewRepo->find($id);
-            return response()->json([ 'success' => $obj ]);
+            $review = $this->productReviewRepo->find($id);
+            return response()->json([$review], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -84,10 +84,10 @@ class ProductsReviewController extends Controller
                 $file_name = $this->productReviewRepo->upload($file , $source);
                 $data['media'] = $file_name;
             }
-            $obj = $this->productReviewRepo->update( $id, $data );
-            return response()->json(['success' => 'update product review success', $obj]);
+            $review = $this->productReviewRepo->update( $id, $data );
+            return response()->json([$review], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'create product review unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -99,9 +99,9 @@ class ProductsReviewController extends Controller
     {
         try {
             $this->productReviewRepo->delete($id);
-            return response()->json(['success' => 'delete product review successfully']);
+            return response()->json(['deleted success'], 201);
         }catch (\Exception $exception){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 }

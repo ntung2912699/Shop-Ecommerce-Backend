@@ -28,9 +28,9 @@ class ShipingAddressController extends Controller
     {
         try {
             $obj = $this->shipingAddressRepo->getAll();
-            return response()->json(['success' => $obj]);
+            return response()->json([$obj], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -42,10 +42,10 @@ class ShipingAddressController extends Controller
     {
         try {
             $data = $request->all();
-            $this->shipingAddressRepo->create($data);
-            return response()->json(['success' => 'create shiping address successfully']);
+            $obj = $this->shipingAddressRepo->create($data);
+            return response()->json([$obj], 201);
         }catch ( \Exception $exception){
-            return response()->json(['error' => 'create shiping address unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -57,9 +57,9 @@ class ShipingAddressController extends Controller
     {
         try {
             $obj = $this->shipingAddressRepo->find($id);
-            return response()->json([ 'success' => $obj ]);
+            return response()->json([$obj], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -73,9 +73,9 @@ class ShipingAddressController extends Controller
         try {
             $data = $request->all();
             $obj = $this->shipingAddressRepo->update( $id, $data );
-            return response()->json(['success' => 'update shiping address success', $obj]);
+            return response()->json([$obj], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'create shiping address unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -87,9 +87,9 @@ class ShipingAddressController extends Controller
     {
         try {
             $this->shipingAddressRepo->delete($id);
-            return response()->json(['success' => 'delete shiping address successfully']);
+            return response()->json(['deleted success'], 201);
         }catch (\Exception $exception){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 }

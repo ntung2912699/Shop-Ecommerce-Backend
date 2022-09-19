@@ -28,9 +28,9 @@ class ShipingMethodController extends Controller
     {
         try {
             $obj = $this->shipingMethodRepo->getAll();
-            return response()->json(['success' => $obj]);
+            return response()->json([$obj], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -42,10 +42,10 @@ class ShipingMethodController extends Controller
     {
         try {
             $data = $request->all();
-            $this->shipingMethodRepo->create($data);
-            return response()->json(['success' => 'create shiping method successfully']);
+            $obj = $this->shipingMethodRepo->create($data);
+            return response()->json([$obj], 201);
         }catch ( \Exception $exception){
-            return response()->json(['error' => 'create shiping method unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -57,9 +57,9 @@ class ShipingMethodController extends Controller
     {
         try {
             $obj = $this->shipingMethodRepo->find($id);
-            return response()->json([ 'success' => $obj ]);
+            return response()->json([$obj], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'],401);
         }
     }
 
@@ -73,9 +73,9 @@ class ShipingMethodController extends Controller
         try {
             $data = $request->all();
             $obj = $this->shipingMethodRepo->update( $id, $data );
-            return response()->json(['success' => 'update shiping method success', $obj]);
+            return response()->json([$obj], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'create shiping method unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -87,9 +87,9 @@ class ShipingMethodController extends Controller
     {
         try {
             $this->shipingMethodRepo->delete($id);
-            return response()->json(['success' => 'delete shiping method successfully']);
+            return response()->json(['deleted success'], 201);
         }catch (\Exception $exception){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 }

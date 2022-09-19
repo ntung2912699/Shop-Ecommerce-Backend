@@ -27,10 +27,10 @@ class AttributeValueController extends Controller
     public function index()
     {
         try {
-            $obj = $this->attributeValueRepo->getAll();
-            return response()->json(['success' => $obj]);
+            $value = $this->attributeValueRepo->getAll();
+            return response()->json([$value], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -42,10 +42,10 @@ class AttributeValueController extends Controller
     {
         try {
             $data = $request->all();
-            $this->attributeValueRepo->create($data);
-            return response()->json(['success' => 'create attribute value successfully']);
+            $value = $this->attributeValueRepo->create($data);
+            return response()->json([$value], 201);
         }catch ( \Exception $exception){
-            return response()->json(['error' => 'create attribute value unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -56,10 +56,10 @@ class AttributeValueController extends Controller
     public function show($id)
     {
         try {
-            $obj = $this->attributeValueRepo->find($id);
-            return response()->json([ 'success' => $obj ]);
+            $value = $this->attributeValueRepo->find($id);
+            return response()->json([$value], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -72,10 +72,10 @@ class AttributeValueController extends Controller
     {
         try {
             $data = $request->all();
-            $obj = $this->attributeValueRepo->update( $id, $data );
-            return response()->json(['success' => 'update attribute value success', $obj]);
+            $value = $this->attributeValueRepo->update( $id, $data );
+            return response()->json([$value], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'create attribute value unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -87,9 +87,9 @@ class AttributeValueController extends Controller
     {
         try {
             $this->attributeValueRepo->delete($id);
-            return response()->json(['success' => 'delete attribute value successfully']);
+            return response()->json(['deleted success'], 201);
         }catch (\Exception $exception){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 }

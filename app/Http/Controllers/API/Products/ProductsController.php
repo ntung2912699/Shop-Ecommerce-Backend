@@ -14,10 +14,14 @@ class ProductsController extends Controller
      */
     protected $productRepo;
 
+    /**
+     * @var AttributesRepository
+     */
     protected $attributeRepo;
 
     /**
      * @param ProductsRepository $productRepo
+     * @param AttributesRepository $attributeRepo
      */
     public function __construct(
         ProductsRepository $productRepo,
@@ -34,10 +38,10 @@ class ProductsController extends Controller
     public function index()
     {
         try {
-            $obj = $this->productRepo->getAll();
-            return response()->json(['products' => $obj]);
+            $products = $this->productRepo->getAll();
+            return response()->json([$products], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -47,7 +51,7 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-//        try {
+        try {
             $data = $request->all();
             if($request->hasFile('thumbnail')){
                 $file = $request->file('thumbnail');
@@ -64,11 +68,11 @@ class ProductsController extends Controller
                 }
                 $data['gallery'] = implode("|", $listgallery);
             }
-            $this->productRepo->create($data);
-            return response()->json(['success' => 'create product successfully']);
-//        }catch ( \Exception $exception){
-//            return response()->json(['error' => 'create product unsuccessfully']);
-//        }
+            $product = $this->productRepo->create($data);
+            return response()->json([$product], 201);
+        }catch ( \Exception $exception){
+            return response()->json(['sorry we can do that'], 401);
+        }
     }
 
     /**
@@ -78,15 +82,15 @@ class ProductsController extends Controller
     public function show($id)
     {
         try {
-            $obj = $this->productRepo->find($id);
-            $groupAttr = $obj->relationship_attribute;
+            $product = $this->productRepo->find($id);
+            $groupAttr = $product->relationship_attribute;
             foreach ($groupAttr as $items) {
                 $attribute = $this->attributeRepo->find($items->attribute_id);
                 $items->attribute = $attribute;
             }
-            $brand = $obj->relationship_for_brands;
-            $catgory = $obj->relationship_for_categories;
-            $spec = $obj->specs;
+            $brand = $product->relationship_for_brands;
+            $catgory = $product->relationship_for_categories;
+            $spec = $product->specs;
             $validated_daddy = [];
             $validated_list = [];
             foreach($groupAttr as $index => $item) {
@@ -99,13 +103,13 @@ class ProductsController extends Controller
                 array_push($validated_daddy, $daddy);
                 unset($daddy);
             }
-            $obj->attribute = $validated_list;
-            $obj->brand = $brand;
-            $obj->category = $catgory;
-            $obj->specs = $spec;
-            return response()->json([ 'products' => $obj ]);
+            $product->attribute = $validated_list;
+            $product->brand = $brand;
+            $product->category = $catgory;
+            $product->specs = $spec;
+            return response()->json([ $product ], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -133,10 +137,10 @@ class ProductsController extends Controller
                 }
                 $data['gallery'] = implode("|", $listgallery);
             }
-            $obj = $this->productRepo->update( $id, $data );
-            return response()->json(['success' => 'update product success', $obj]);
+            $product = $this->productRepo->update( $id, $data );
+            return response()->json([$product], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'update product unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -148,9 +152,9 @@ class ProductsController extends Controller
     {
         try {
             $this->productRepo->delete($id);
-            return response()->json(['success' => 'delete product successfully']);
+            return response()->json(['deleted success'], 201);
         }catch (\Exception $exception){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -159,8 +163,12 @@ class ProductsController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function get_attribute($id){
-        $result = $this->productRepo->get_attribute_for_product($id);
-        return response()->json(['success' => $result]);
+        try {
+            $result = $this->productRepo->get_attribute_for_product($id);
+            return response()->json([$result], 201);
+        }catch (\Exception $exception){
+            return response()->json(['sorry we can do that'], 401);
+        }
     }
 
     /**
@@ -170,18 +178,10 @@ class ProductsController extends Controller
     {
         try {
             $products = $this->productRepo->get_new_produts();
-            return response()->json(['list_products' => $products]);
+            return response()->json([$products], 201);
         }catch (\Exception $exception){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
-    }
-
-    /**
-     * @param $attributes
-     * @return void
-     */
-    public function group_value_by_attribute($attributes){
-       var_dump($attributes);die();
     }
 
     /**
@@ -193,7 +193,7 @@ class ProductsController extends Controller
         try {
             $key = $request->get('search');
             $result = $this->productRepo->obj_search($key);
-            return response()->json([ 'success' => $result ], 201);
+            return response()->json([ $result ], 201);
         }catch (\Exception $exception){
             return response()->json(['no result'], 401);
         }

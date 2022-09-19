@@ -30,9 +30,9 @@ class TransportersController extends Controller
     {
         try {
             $obj = $this->transportersRepo->getAll();
-            return response()->json(['success' => $obj]);
+            return response()->json([$obj], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -46,14 +46,14 @@ class TransportersController extends Controller
             $data = $request->all();
             if($request->hasFile('logo')){
                 $file = $request->file('logo');
-                $source = 'upload/transporters';
+                $source = 'upload/transporters/';
                 $file_name = $this->transportersRepo->upload($file , $source);
                 $data['logo'] = url($file_name);
             }
-            $this->transportersRepo->create($data);
-            return response()->json(['success' => 'create transporters successfully']);
+            $obj = $this->transportersRepo->create($data);
+            return response()->json([$obj], 201);
         }catch ( \Exception $exception){
-            return response()->json(['error' => 'create transporters unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -64,10 +64,10 @@ class TransportersController extends Controller
     public function show($id)
     {
         try {
-            $category = $this->transportersRepo->find($id);
-            return response()->json([ $category, 200 ]);
+            $obj = $this->transportersRepo->find($id);
+            return response()->json([ $obj ], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -82,14 +82,14 @@ class TransportersController extends Controller
             $data = $request->all();
             if($request->hasFile('logo')){
                 $file = $request->file('logo');
-                $source = 'upload/transporters';
+                $source = 'upload/transporters/';
                 $file_name = $this->transportersRepo->upload($file , $source);
-                $data['logo'] = $file_name;
+                $data['logo'] = url($file_name);
             }
-            $category = $this->transportersRepo->update( $id, $data );
-            return response()->json(['success' => 'update transporters success', $category]);
+            $obj = $this->transportersRepo->update( $id, $data );
+            return response()->json([$obj], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'create transporters unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -101,9 +101,9 @@ class TransportersController extends Controller
     {
         try {
             $this->transportersRepo->delete($id);
-            return response()->json(['success' => 'delete transporters successfully']);
+            return response()->json(['deleted success'], 201);
         }catch (\Exception $exception){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 

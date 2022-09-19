@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\UsersRepository\UsersProfileRepository;
 use App\Repositories\UsersRepository\UsersRepository;
 use Illuminate\Http\Request;
+use PHPUnit\Exception;
 
 class UsersProfilesController extends Controller
 {
@@ -38,10 +39,10 @@ class UsersProfilesController extends Controller
     public function index()
     {
         try {
-            $obj = $this->usersProfileRepo->getAll();
-            return response()->json(['success' => $obj]);
+            $users = $this->usersProfileRepo->getAll();
+            return response()->json([ $users ], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -59,10 +60,10 @@ class UsersProfilesController extends Controller
                 $file_name = $this->usersProfileRepo->upload($file , $source);
                 $data['avatar'] = url($file_name);
             }
-            $this->usersProfileRepo->create($data);
-            return response()->json(['success' => 'create users profile successfully']);
+            $users = $this->usersProfileRepo->create($data);
+            return response()->json([$users], 201);
         }catch ( \Exception $exception){
-            return response()->json(['error' => 'create users profile unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -74,9 +75,9 @@ class UsersProfilesController extends Controller
     {
         try {
             $obj = $this->usersProfileRepo->find($id);
-            return response()->json([ 'success' => $obj ]);
+            return response()->json([ $obj ], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -96,9 +97,9 @@ class UsersProfilesController extends Controller
                 $data['avatar'] = url($file_name);
             }
             $obj = $this->usersProfileRepo->update( $id, $data );
-            return response()->json(['success' => 'update users profile success', $obj]);
+            return response()->json([$obj], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'create users profile unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -110,9 +111,9 @@ class UsersProfilesController extends Controller
     {
         try {
             $this->usersProfileRepo->delete($id);
-            return response()->json(['success' => 'delete users profile successfully']);
+            return response()->json(['deleted success'], 201);
         }catch (\Exception $exception){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -121,9 +122,13 @@ class UsersProfilesController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function get_profile_by_user($user_id){
-       $user = $this->userRepo->find($user_id);
-       $profile = $user->profile;
-       return response()->json(['profile' => $profile], 201);
+        try {
+            $user = $this->userRepo->find($user_id);
+            $profile = $user->profile;
+            return response()->json([$profile], 201);
+        }catch (\Exception $exception){
+            return response()->json(['sorry we can do that'], 401);
+        }
     }
 
     /**
@@ -131,9 +136,13 @@ class UsersProfilesController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function get_address_by_user($user_id){
-        $user = $this->userRepo->find($user_id);
-        $user->address = $user->address;
-        $user->profile = $user->profile;
-        return response()->json(['user' => $user], 201);
+        try {
+            $user = $this->userRepo->find($user_id);
+            $user->address = $user->address;
+            $user->profile = $user->profile;
+            return response()->json(['user' => $user], 201);
+        }catch (\Exception $exception){
+            return response()->json(['sorry we can do that'], 401);
+        }
     }
 }

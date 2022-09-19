@@ -27,10 +27,10 @@ class PaymentMethodsController extends Controller
     public function index()
     {
         try {
-            $obj = $this->paymentMethodRepo->getAll();
-            return response()->json(['success' => $obj]);
+            $method =$this->paymentMethodRepo->getAll();
+            return response()->json([$method], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -42,10 +42,10 @@ class PaymentMethodsController extends Controller
     {
         try {
             $data = $request->all();
-            $this->paymentMethodRepo->create($data);
-            return response()->json(['success' => 'create method successfully']);
+            $method = $this->paymentMethodRepo->create($data);
+            return response()->json([$method], 201);
         }catch ( \Exception $exception){
-            return response()->json(['error' => 'create method unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -56,10 +56,10 @@ class PaymentMethodsController extends Controller
     public function show($id)
     {
         try {
-            $obj = $this->paymentMethodRepo->find($id);
-            return response()->json([ 'success' => $obj ]);
+            $status = $this->paymentMethodRepo->find($id);
+            return response()->json([ $status ], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -72,10 +72,10 @@ class PaymentMethodsController extends Controller
     {
         try {
             $data = $request->all();
-            $obj = $this->paymentMethodRepo->update( $id, $data );
-            return response()->json(['success' => 'update method success', $obj]);
+            $methods = $this->paymentMethodRepo->update( $id, $data );
+            return response()->json([$methods], 201);
         }catch ( \Exception $exception ){
-            return response()->json(['error' => 'create method unsuccessfully']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 
@@ -87,9 +87,9 @@ class PaymentMethodsController extends Controller
     {
         try {
             $this->paymentMethodRepo->delete($id);
-            return response()->json(['success' => 'delete method successfully']);
+            return response()->json(['deleted success'], 201);
         }catch (\Exception $exception){
-            return response()->json(['error' => 'sorry we can do that']);
+            return response()->json(['sorry we can do that'], 401);
         }
     }
 }
