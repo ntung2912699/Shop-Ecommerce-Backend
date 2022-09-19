@@ -31,6 +31,6 @@ class UsersProfile extends Model
     ];
 
     public function users(){
-        return $this->belongsTo(User::class, 'id');
+        return $this->hasOne(User::class, 'id');
     }
 }
