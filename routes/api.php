@@ -179,3 +179,4 @@ Route::get('/get-attribute/{id}', [\App\Http\Controllers\API\Products\AttributeC
 Route::post('/search-products', [\App\Http\Controllers\API\Products\ProductsController::class, 'search_products']);
 Route::get('/get-list-product/by-categories/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'get_list_product_by_categories']);
 Route::get('/show-category/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'show']);
+Route::post('/filter-product', [\App\Http\Controllers\API\Products\ProductsController::class, 'filter_products']);

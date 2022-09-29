@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 abstract class BaseRepository implements RepositoryInterface
@@ -117,8 +118,7 @@ abstract class BaseRepository implements RepositoryInterface
     public function obj_search($key)
     {
         $result = $this->model
-            ->where('name', 'LIKE', '%' . $key . '%')
-            ->get();
+            ->where('name', 'LIKE', '%' . $key . '%')->take(5)->get();
         return $result;
     }
 

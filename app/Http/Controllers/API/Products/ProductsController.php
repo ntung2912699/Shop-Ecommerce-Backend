@@ -198,4 +198,18 @@ class ProductsController extends Controller
             return response()->json('no result', 401);
         }
     }
+
+    public function filter_products(Request $request)
+    {
+        try {
+            $price_min = $request->get('price_min');
+            $price_max = $request->get('price_max');
+            $key_two = $request->get('key_two');
+            $key_three = $request->get('key_three');
+            $result = $this->productRepo->filter_search($price_min ,$price_max , $key_two, $key_three);
+            return response()->json( $result , 200);
+        }catch (\Exception $exception) {
+            return response()->json('no result', 401);
+        }
+    }
 }

@@ -24,15 +24,30 @@ class ProductsRepository extends BaseRepository implements ProductsRepositoryInt
         return $obj;
     }
 
+    /**
+     * @return mixed
+     */
     public function get_new_produts()
     {
-        $products = $this->model->orderBy('created_at', 'DESC')->limit(12)->get();
+        $products = $this->model->orderBy('created_at', 'DESC')->paginate(8);
         return $products;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function get_attribute_for_product_ids($id)
     {
         $obj = $this->model->find($id)->relationship_attribute;;
         return $obj;
+    }
+
+    public function filter_search($price_min, $price_max, $key_two, $key_three)
+    {
+        $result = $this->model
+            ->where('price', '>=', $price_min)->where('price', '<=', $price_max)
+            ->get();
+        return $result;
     }
 }
