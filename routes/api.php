@@ -172,6 +172,7 @@ function ($router) {
 
 Route::get('/get-categories-client', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'index']);
 Route::get('/get-product-clients', [\App\Http\Controllers\API\Products\ProductsController::class, 'get_new_products_for_home_page']);
+Route::get('/get-product-shop', [\App\Http\Controllers\API\Products\ProductsController::class, 'get_new_products_for_shop']);
 Route::get('/get-group-attribute-client/{id}', [\App\Http\Controllers\API\Products\ProductsController::class, 'get_attribute']);
 Route::get('/show-products-client/{id}', [\App\Http\Controllers\API\Products\ProductsController::class, 'show']);
 Route::get('/get-group-attribute/{id}', [\App\Http\Controllers\API\Products\ProductsController::class, 'get_attribute']);

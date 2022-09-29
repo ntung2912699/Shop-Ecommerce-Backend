@@ -185,6 +185,19 @@ class ProductsController extends Controller
     }
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function get_new_products_for_shop()
+    {
+        try {
+            $products = $this->productRepo->get_shop_produts();
+            return response()->json($products, 201);
+        }catch (\Exception $exception){
+            return response()->json('sorry we can do that', 401);
+        }
+    }
+
+    /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */

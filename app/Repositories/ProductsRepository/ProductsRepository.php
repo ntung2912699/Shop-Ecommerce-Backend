@@ -29,6 +29,15 @@ class ProductsRepository extends BaseRepository implements ProductsRepositoryInt
      */
     public function get_new_produts()
     {
+        $products = $this->model->orderBy('created_at', 'DESC')->get();
+        return $products;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function get_shop_produts()
+    {
         $products = $this->model->orderBy('created_at', 'DESC')->paginate(8);
         return $products;
     }
