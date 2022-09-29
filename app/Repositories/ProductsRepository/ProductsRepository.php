@@ -29,7 +29,7 @@ class ProductsRepository extends BaseRepository implements ProductsRepositoryInt
      */
     public function get_new_produts()
     {
-        $products = $this->model->orderBy('created_at', 'DESC')->get();
+        $products = $this->model->orderBy('created_at', 'DESC')->take(12)->get();
         return $products;
     }
 
