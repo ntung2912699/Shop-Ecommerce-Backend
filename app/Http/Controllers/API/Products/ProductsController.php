@@ -88,7 +88,6 @@ class ProductsController extends Controller
                 $attribute = $this->attributeRepo->find($items->attribute_id);
                 $items->attribute = $attribute;
             }
-            $brand = $product->relationship_for_brands;
             $catgory = $product->relationship_for_categories;
             $spec = $product->specs;
             $validated_daddy = [];
@@ -104,7 +103,6 @@ class ProductsController extends Controller
                 unset($daddy);
             }
             $product->attribute = $validated_list;
-            $product->brand = $brand;
             $product->category = $catgory;
             $product->specs = $spec;
             return response()->json( $product , 201);
@@ -212,6 +210,10 @@ class ProductsController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function filter_products(Request $request)
     {
         try {

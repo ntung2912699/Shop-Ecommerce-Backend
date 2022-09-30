@@ -18,9 +18,6 @@ class CreateAttributesValueTable extends Migration
             $table->unsignedBigInteger('attribute_id');
             $table->unsignedBigInteger('product_id');
             $table->string('value');
-            $table->text('description');
-            $table->decimal('price',13, 0);
-            $table->integer('quantity');
             $table->timestamps();
 
             $table->foreign('attribute_id')

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
@@ -73,8 +74,30 @@ class AuthController extends Controller
             $user = auth()->user();
             return response()->json([
                 'token' => $token,
-                'user' => $user
+                'user' => $user,
+                'isLogin' => Auth::check(),
             ], 201);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function checkAdminPermission()
+    {
+            $islogin = auth()->check();
+            if ($islogin){
+                $user = auth()->user()->role;
+                if ($user === 'client'){
+                    return response()->json([
+                        'admin_permission' => false,
+                    ], 200);
+                }
+                return response()->json([
+                    'admin_permission' => true,
+                ], 200);
+            }else{
+                return response()->json('you not permision admin', 401);
+        }
     }
 
     /**

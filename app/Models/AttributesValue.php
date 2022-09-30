@@ -22,9 +22,6 @@ class AttributesValue extends Model
         'attribute_id',
         'product_id',
         'value',
-        'description',
-        'price',
-        'quantity',
         'created_at',
         'updated_at'
     ];

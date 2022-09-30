@@ -30,9 +30,6 @@ class CategoriesController extends Controller
     {
         try {
             $categories = $this->categoriesRepo->getAll();
-//            foreach ($categories as $cate){
-//                $brand = $cate->relationship_for_brands;
-//            }
             return response()->json( $categories , 201);
         }catch ( \Exception $exception ){
             return response()->json('sorry we can do that', 401);
@@ -68,7 +65,6 @@ class CategoriesController extends Controller
     {
         try {
             $category = $this->categoriesRepo->find($id);
-            $category->relationship_for_brands;
             return response()->json( $category , 201);
         }catch ( \Exception $exception ){
             return response()->json( 'sorry we can do that', 401);

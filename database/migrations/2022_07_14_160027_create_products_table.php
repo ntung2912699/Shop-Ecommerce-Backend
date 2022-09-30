@@ -17,7 +17,6 @@ class CreateProductsTable extends Migration
             $table->id()->autoIncrement();
             $table->unsignedBigInteger('categories_id')
                 ->unsigned();
-            $table->unsignedBigInteger('brands_id')->unsigned();
             $table->string('name');
             $table->string('thumbnail');
             $table->text('gallery');
@@ -31,9 +30,6 @@ class CreateProductsTable extends Migration
             $table->foreign('categories_id')
                 ->references('id')
                 ->on('categories');
-            $table->foreign('brands_id')
-                ->references('id')
-                ->on('brands');
         });
     }
 

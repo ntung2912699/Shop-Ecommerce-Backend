@@ -20,7 +20,6 @@ class Products extends Model
     protected $fillable = [
       'id',
       'categories_id',
-      'brands_id',
       'name',
       'thumbnail',
       'gallery',
@@ -28,7 +27,6 @@ class Products extends Model
       'quantity',
       'short_description',
       'status',
-      'count',
       'created_at',
       'updated_at'
     ];
@@ -39,11 +37,6 @@ class Products extends Model
     public function relationship_for_categories()
     {
         return $this->belongsTo( Categories::class, 'categories_id');
-    }
-
-    public function relationship_for_brands()
-    {
-        return $this->belongsTo( Brands::class, 'brands_id');
     }
 
     public function relationship_for_attribute()

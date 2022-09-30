@@ -26,6 +26,7 @@ Route::group([
     Route::post('/logout', [\App\Http\Controllers\API\Auth\AuthController::class, 'logout']);
     Route::post('/refresh', [\App\Http\Controllers\API\Auth\AuthController::class, 'refresh']);
     Route::get('/user-profile', [\App\Http\Controllers\API\Auth\AuthController::class, 'profile']);
+    Route::post('/check-admin-permission', [\App\Http\Controllers\API\Auth\AuthController::class, 'checkAdminPermission']);
 });
 Route::group([
     'middleware' => 'auth.jwt',
@@ -41,15 +42,6 @@ function ($router) {
     Route::post('/update-categories/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'update']);
     Route::delete('/destroy-categories/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'destroy']);
     Route::get('/search-categories', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'search_category']);
-
-    /**
-     * group route for brands
-     */
-    Route::get('/get-brands', [\App\Http\Controllers\API\Brands\BrandsController::class, 'index']);
-    Route::get('/get-brands/{id}', [\App\Http\Controllers\API\Brands\BrandsController::class, 'show']);
-    Route::post('/create-brands', [\App\Http\Controllers\API\Brands\BrandsController::class, 'store']);
-    Route::post('/update-brands/{id}', [\App\Http\Controllers\API\Brands\BrandsController::class, 'update']);
-    Route::delete('/destroy-brands/{id}', [\App\Http\Controllers\API\Brands\BrandsController::class, 'destroy']);
 
     /**
      * group route for product
@@ -74,17 +66,6 @@ function ($router) {
     Route::delete('/destroy-attribute-value/{id}', [\App\Http\Controllers\API\Products\AttributeValueController::class, 'destroy']);
 
     /**
-     * group route for cart
-     */
-    Route::get('/get-cart', [\App\Http\Controllers\API\Carts\CartsController::class, 'index']);
-    Route::get('/get-cart-user/{id}', [\App\Http\Controllers\API\Carts\CartsController::class, 'show']);
-    Route::post('/create-cart', [\App\Http\Controllers\API\Carts\CartsController::class, 'store']);
-    Route::post('/update-cart', [\App\Http\Controllers\API\Carts\CartsController::class, 'update']);
-    Route::delete('/destroy-cart/{id}', [\App\Http\Controllers\API\Carts\CartsController::class, 'destroy']);
-    Route::get('/get-cart-by-user/{id}', [\App\Http\Controllers\API\Carts\CartsController::class, 'get_cart_by_user_id']);
-    Route::delete('/remove-items-cart/{id}', [\App\Http\Controllers\API\Carts\CartsController::class, 'remove_item_cart']);
-    Route::post('/update-qty-cart/{id}', [\App\Http\Controllers\API\Carts\CartsController::class, 'update_qty_item_cart']);
-    /**
      * group route for users profile
      */
     Route::get('/get-profile', [\App\Http\Controllers\API\Users\UsersProfilesController::class, 'index']);
@@ -94,62 +75,6 @@ function ($router) {
     Route::delete('/destroy-profile/{id}', [\App\Http\Controllers\API\Users\UsersProfilesController::class, 'destroy']);
     Route::get('/get-profile-by-user/{id}', [\App\Http\Controllers\API\Users\UsersProfilesController::class, 'get_profile_by_user']);
     Route::get('/get-address-by-user/{id}', [\App\Http\Controllers\API\Users\UsersProfilesController::class, 'get_address_by_user']);
-
-
-    /**
-     * group route for shipping address
-     */
-    Route::get('/get-address', [\App\Http\Controllers\API\Users\ShipingAddressController::class, 'index']);
-    Route::get('/get-address-user/{id}', [\App\Http\Controllers\API\Users\ShipingAddressController::class, 'show']);
-    Route::post('/create-address', [\App\Http\Controllers\API\Users\ShipingAddressController::class, 'store']);
-    Route::post('/update-address/{id}', [\App\Http\Controllers\API\Users\ShipingAddressController::class, 'update']);
-    Route::delete('/destroy-address/{id}', [\App\Http\Controllers\API\Users\ShipingAddressController::class, 'destroy']);
-
-    /**
-     * group route for shipping transporters
-     */
-    Route::get('/get-transporters', [\App\Http\Controllers\API\Shipings\TransportersController::class, 'index']);
-    Route::get('/get-transporters/{id}', [\App\Http\Controllers\API\Shipings\TransportersController::class, 'show']);
-    Route::post('/create-transporters', [\App\Http\Controllers\API\Shipings\TransportersController::class, 'store']);
-    Route::post('/update-transporters/{id}', [\App\Http\Controllers\API\Shipings\TransportersController::class, 'update']);
-    Route::delete('/destroy-transporters/{id}', [\App\Http\Controllers\API\Shipings\TransportersController::class, 'destroy']);
-
-    /**
-     * group route for shipping method
-     */
-    Route::get('/get-shiping-method', [\App\Http\Controllers\API\Shipings\ShipingMethodController::class, 'index']);
-    Route::get('/get-shiping-method/{id}', [\App\Http\Controllers\API\Shipings\ShipingMethodController::class, 'show']);
-    Route::post('/create-shiping-method', [\App\Http\Controllers\API\Shipings\ShipingMethodController::class, 'store']);
-    Route::post('/update-shiping-method/{id}', [\App\Http\Controllers\API\Shipings\ShipingMethodController::class, 'update']);
-    Route::delete('/destroy-shiping-method/{id}', [\App\Http\Controllers\API\Shipings\ShipingMethodController::class, 'destroy']);
-
-    /**
-     * group route for payment method
-     */
-    Route::get('/get-payment-method', [\App\Http\Controllers\API\Payments\PaymentMethodsController::class, 'index']);
-    Route::get('/get-payment-method/{id}', [\App\Http\Controllers\API\Payments\PaymentMethodsController::class, 'show']);
-    Route::post('/create-payment-method', [\App\Http\Controllers\API\Payments\PaymentMethodsController::class, 'store']);
-    Route::post('/update-payment-method/{id}', [\App\Http\Controllers\API\Payments\PaymentMethodsController::class, 'update']);
-    Route::delete('/destroy-payment-method/{id}', [\App\Http\Controllers\API\Payments\PaymentMethodsController::class, 'destroy']);
-
-    /**
-     * group route for order status
-     */
-    Route::get('/get-status', [\App\Http\Controllers\API\Orders\OrdersStatusController::class, 'index']);
-    Route::get('/get-status/{id}', [\App\Http\Controllers\API\Orders\OrdersStatusController::class, 'show']);
-    Route::post('/create-status', [\App\Http\Controllers\API\Orders\OrdersStatusController::class, 'store']);
-    Route::post('/update-status/{id}', [\App\Http\Controllers\API\Orders\OrdersStatusController::class, 'update']);
-    Route::delete('/destroy-status/{id}', [\App\Http\Controllers\API\Orders\OrdersStatusController::class, 'destroy']);
-
-    /**
-     * group route for order
-     */
-    Route::get('/get-order', [\App\Http\Controllers\API\Orders\OrdersController::class, 'index']);
-    Route::get('/get-order-user/{id}', [\App\Http\Controllers\API\Orders\OrdersController::class, 'show']);
-    Route::post('/create-order', [\App\Http\Controllers\API\Orders\OrdersController::class, 'store']);
-    Route::post('/update-order/{id}', [\App\Http\Controllers\API\Orders\OrdersController::class, 'update']);
-    Route::delete('/destroy-order/{id}', [\App\Http\Controllers\API\Orders\OrdersController::class, 'destroy']);
-    Route::post('/update-order-status/{id}', [\App\Http\Controllers\API\Orders\OrdersController::class, 'update_status_order']);
 
     /**
      * group route for specs
