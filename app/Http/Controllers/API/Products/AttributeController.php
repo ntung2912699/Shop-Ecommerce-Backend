@@ -73,7 +73,7 @@ class AttributeController extends Controller
         try {
             $data = $request->all();
             $attribute = $this->attributeRepo->update( $id, $data );
-            return response()->json($attribute, 201);
+            return response()->json($attribute, 200);
         }catch ( \Exception $exception ){
             return response()->json('sorry we can do that', 401);
         }

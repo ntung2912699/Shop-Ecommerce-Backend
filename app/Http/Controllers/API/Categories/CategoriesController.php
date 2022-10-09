@@ -30,6 +30,9 @@ class CategoriesController extends Controller
     {
         try {
             $categories = $this->categoriesRepo->getAll();
+            foreach ($categories as $category){
+                $category->count_product = count($category->relationship_for_products);
+            }
             return response()->json( $categories , 201);
         }catch ( \Exception $exception ){
             return response()->json('sorry we can do that', 401);
@@ -114,8 +117,8 @@ class CategoriesController extends Controller
     public function get_list_product_by_categories($id)
     {
         try {
-            $categories = $this->categoriesRepo->get_product_by_categories($id);
-            return response()->json( $categories, 201);
+            $categories_products = $this->categoriesRepo->get_product_by_categories($id);
+            return response()->json( $categories_products, 201);
         }catch (\Exception $exception){
             return response()->json('sorry we can do that', 401);
         }

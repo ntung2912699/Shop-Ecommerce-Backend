@@ -52,10 +52,31 @@ class ProductsRepository extends BaseRepository implements ProductsRepositoryInt
         return $obj;
     }
 
-    public function filter_search($price_min, $price_max, $key_two, $key_three)
+    /**
+     * @param $price_min
+     * @param $price_max
+     * @param $category_id
+     * @return mixed
+     */
+    public function filter_search($price_min, $price_max)
     {
         $result = $this->model
-            ->where('price', '>=', $price_min)->where('price', '<=', $price_max)
+            ->where('price', '>=', intval($price_min))->where('price', '<=', intval($price_max))
+            ->get();
+        return $result;
+    }
+
+    /**
+     * @param $price_min
+     * @param $price_max
+     * @param $category_id
+     * @return mixed
+     */
+    public function filter_search_cate($price_min, $price_max, $category_id)
+    {
+        $result = $this->model
+            ->where('categories_id', '=' ,$category_id)
+            ->where('price', '>=', intval($price_min))->where('price', '<=', intval($price_max))
             ->get();
         return $result;
     }

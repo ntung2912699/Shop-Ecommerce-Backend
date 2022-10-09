@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Repositories\UsersRepository\UsersRepository;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -87,14 +89,15 @@ class AuthController extends Controller
             $islogin = auth()->check();
             if ($islogin){
                 $user = auth()->user()->role;
-                if ($user === 'client'){
+                if ($user === 'Admin'){
+                    return response()->json([
+                        'admin_permission' => true,
+                    ], 200);
+                }else{
                     return response()->json([
                         'admin_permission' => false,
                     ], 200);
                 }
-                return response()->json([
-                    'admin_permission' => true,
-                ], 200);
             }else{
                 return response()->json('you not permision admin', 401);
         }
@@ -145,5 +148,34 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'oldpassword' => 'required|string|min:6',
+            'newpassword' => 'required|string|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $user = auth()->user();
+        $oldpassword = auth()->user()->getAuthPassword();
+        $oldpasswordinput = $request->input('oldpassword');
+        if (password_verify($oldpasswordinput, $oldpassword))
+        {
+            $useRepo = new UsersRepository();
+            $newpassword = $request->input('newpassword');
+            $data['password'] = Hash::make($newpassword);
+            $useRepo->update($user->id, $data);
+            return response()->json(auth()->user(), 200);
+        }
+        return response()->json('Mật khẩu cũ không chính  ! vui lòng thử lại', 422);
     }
 }

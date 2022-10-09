@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API\Products;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\CategoriesRepository\CategoriesRepository;
 use App\Repositories\ProductsRepository\AttributesRepository;
 use App\Repositories\ProductsRepository\ProductsRepository;
+use App\Repositories\UsersRepository\UsersRepository;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -15,21 +17,37 @@ class ProductsController extends Controller
     protected $productRepo;
 
     /**
+     * @var UsersRepository
+     */
+    protected $userRepo;
+
+    /**
      * @var AttributesRepository
      */
     protected $attributeRepo;
 
     /**
+     * @var CategoriesRepository
+     */
+    protected  $categoriesRepo;
+
+    /**
      * @param ProductsRepository $productRepo
      * @param AttributesRepository $attributeRepo
+     * @param CategoriesRepository $categoriesRepo
+     * @param UsersRepository $userRepo
      */
     public function __construct(
         ProductsRepository $productRepo,
-        AttributesRepository $attributeRepo
+        AttributesRepository $attributeRepo,
+        CategoriesRepository $categoriesRepo,
+        UsersRepository $userRepo
     )
     {
         $this->productRepo = $productRepo;
         $this->attributeRepo = $attributeRepo;
+        $this->categoriesRepo = $categoriesRepo;
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -39,6 +57,9 @@ class ProductsController extends Controller
     {
         try {
             $products = $this->productRepo->getAll();
+            foreach ($products as $product){
+                $product->category = $product->relationship_for_categories->name;
+            }
             return response()->json($products, 201);
         }catch ( \Exception $exception ){
             return response()->json('sorry we can do that', 401);
@@ -219,12 +240,52 @@ class ProductsController extends Controller
         try {
             $price_min = $request->get('price_min');
             $price_max = $request->get('price_max');
-            $key_two = $request->get('key_two');
-            $key_three = $request->get('key_three');
-            $result = $this->productRepo->filter_search($price_min ,$price_max , $key_two, $key_three);
+            $category_id = $request->get('id_category');
+            if($category_id === 'all'){
+                $result = $this->productRepo->filter_search($price_min ,$price_max);
+            }else{
+                $result = $this->productRepo->filter_search_cate($price_min ,$price_max , $category_id);
+            }
             return response()->json( $result , 200);
         }catch (\Exception $exception) {
             return response()->json('no result', 401);
         }
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function produts_statis(){
+        $product  = count($this->productRepo->getAll());
+        return response()->json( $product , 200);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function categories_statis(){
+        $cate  = count($this->categoriesRepo->getAll());
+        return response()->json( $cate , 200);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function users_statis(){
+        $users  = count($this->userRepo->getAll());
+        return response()->json( $users , 200);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function money_statis(){
+        $money = [];
+        $product  = $this->productRepo->getAll();
+        foreach ($product as $pro){
+            $money[] = $pro->price;
+        }
+        $total_money = array_sum($money);
+        return response()->json( $total_money , 200);
     }
 }

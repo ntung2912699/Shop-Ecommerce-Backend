@@ -24,7 +24,6 @@ class CreateProductsTable extends Migration
             $table->integer('quantity');
             $table->longText('short_description');
             $table->string('status');
-            $table->integer('count');
             $table->timestamps();
 
             $table->foreign('categories_id')

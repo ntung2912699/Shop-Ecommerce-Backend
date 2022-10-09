@@ -23,7 +23,14 @@ class CategoriesRepository extends BaseRepository implements CategoriesRepositor
     {
         $result = $this->model->find($id);
         $result->products = $result->relationship_for_products;
-        $result->brands = $result->relationship_for_brands;
         return $result;
     }
+
+//    public function filter_search($category_id, $min, $max){
+//        $result = $this->model
+//            ->where('id', '=', $category_id)
+//            ->where('price', '>=', intval($min))->where('price', '<=', intval($max))
+//            ->get();
+//        return $result;
+//    }
 }

@@ -27,43 +27,46 @@ Route::group([
     Route::post('/refresh', [\App\Http\Controllers\API\Auth\AuthController::class, 'refresh']);
     Route::get('/user-profile', [\App\Http\Controllers\API\Auth\AuthController::class, 'profile']);
     Route::post('/check-admin-permission', [\App\Http\Controllers\API\Auth\AuthController::class, 'checkAdminPermission']);
+    Route::post('/change-password', [\App\Http\Controllers\API\Auth\AuthController::class, 'changePassword']);
 });
+Route::post('/forgot-password', [\App\Http\Controllers\API\Users\UsersController::class, 'forgotPassword']);
+
 Route::group([
-    'middleware' => 'auth.jwt',
+    'middleware' => 'auth.admin',
+    'prefix' => 'admin'
 ],
 function ($router) {
-    /**
-     * group route for categories
-     */
-    Route::get('/get-list-product/by-categories/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'get_list_product_by_categories']);
-    Route::get('/get-categories', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'index']);
-    Route::post('/create-categories', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'store']);
-    Route::get('/show-categories/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'show']);
-    Route::post('/update-categories/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'update']);
-    Route::delete('/destroy-categories/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'destroy']);
-    Route::get('/search-categories', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'search_category']);
+    Route::get('/get-categories-admin', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'index']);
+    Route::get('/show-categories-admin/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'show']);
+    Route::post('/update-categories-admin/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'update']);
+    Route::delete('/destroy-categories-admin/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'destroy']);
+    Route::post('/create-categories-admin', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'store']);
 
-    /**
-     * group route for product
-     */
-    Route::get('/get-products', [\App\Http\Controllers\API\Products\ProductsController::class, 'index']);
-    Route::post('/create-products', [\App\Http\Controllers\API\Products\ProductsController::class, 'store']);
-    Route::post('/update-products/{id}', [\App\Http\Controllers\API\Products\ProductsController::class, 'update']);
-    Route::get('/show-products/{id}', [\App\Http\Controllers\API\Products\ProductsController::class, 'show']);
-    Route::delete('/destroy-products/{id}', [\App\Http\Controllers\API\Products\ProductsController::class, 'destroy']);
-    Route::get('/get-group-attribute/{id}', [\App\Http\Controllers\API\Products\ProductsController::class, 'get_attribute']);
+    Route::get('/get-attribute-admin/{id}', [\App\Http\Controllers\API\Products\AttributeController::class, 'show']);
+    Route::post('/create-attribute-admin', [\App\Http\Controllers\API\Products\AttributeController::class, 'store']);
+    Route::get('/get-list-attributes-admin', [\App\Http\Controllers\API\Products\AttributeController::class, 'index']);
+    Route::post('/update-attributes-admin/{id}', [\App\Http\Controllers\API\Products\AttributeController::class, 'update']);
+    Route::delete('/destroy-attribute-admin/{id}', [\App\Http\Controllers\API\Products\AttributeController::class, 'destroy']);
 
-    /**
-     * group route for attribute
-     */
-    Route::get('/get-attribute', [\App\Http\Controllers\API\Products\AttributeController::class, 'index']);
-    Route::get('/get-attribute/{id}', [\App\Http\Controllers\API\Products\AttributeController::class, 'show']);
-    Route::post('/create-attribute', [\App\Http\Controllers\API\Products\AttributeController::class, 'store']);
-    Route::delete('/destroy-attribute/{id}', [\App\Http\Controllers\API\Products\AttributeController::class, 'destroy']);
+    Route::post('/create-attribute-value-admin', [\App\Http\Controllers\API\Products\AttributeValueController::class, 'store']);
+    Route::delete('/destroy-attribute-value-admin/{id}', [\App\Http\Controllers\API\Products\AttributeValueController::class, 'destroy']);
+    Route::post('/update-attribute-value-admin/{id}', [\App\Http\Controllers\API\Products\AttributeValueController::class, 'update']);
 
-    Route::get('/get-attribute-value', [\App\Http\Controllers\API\Products\AttributeValueController::class, 'index']);
-    Route::post('/create-attribute-value', [\App\Http\Controllers\API\Products\AttributeValueController::class, 'store']);
-    Route::delete('/destroy-attribute-value/{id}', [\App\Http\Controllers\API\Products\AttributeValueController::class, 'destroy']);
+    Route::get('/show-products-admin/{id}', [\App\Http\Controllers\API\Products\ProductsController::class, 'show']);
+    Route::get('/get-all-products-admin', [\App\Http\Controllers\API\Products\ProductsController::class, 'index']);
+    Route::post('/create-products-admin', [\App\Http\Controllers\API\Products\ProductsController::class, 'store']);
+    Route::post('/update-products-admin/{id}', [\App\Http\Controllers\API\Products\ProductsController::class, 'update']);
+    Route::delete('/destroy-products-admin/{id}', [\App\Http\Controllers\API\Products\ProductsController::class, 'destroy']);
+
+    Route::get('/get-users-admin', [\App\Http\Controllers\API\Users\UsersController::class, 'index']);
+    Route::post('/update-users-role-admin/{id}', [\App\Http\Controllers\API\Users\UsersController::class, 'update']);
+
+    Route::post('/check-admin', [\App\Http\Controllers\API\Auth\AuthController::class, 'checkAdminPermission']);
+
+    Route::get('/dashboard-product', [\App\Http\Controllers\API\Products\ProductsController::class, 'produts_statis']);
+    Route::get('/dashboard-categories', [\App\Http\Controllers\API\Products\ProductsController::class, 'categories_statis']);
+    Route::get('/dashboard-users', [\App\Http\Controllers\API\Products\ProductsController::class, 'users_statis']);
+    Route::get('/dashboard-money', [\App\Http\Controllers\API\Products\ProductsController::class, 'money_statis']);
 
     /**
      * group route for users profile
@@ -96,6 +99,7 @@ function ($router) {
 });
 
 Route::get('/get-categories-client', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'index']);
+Route::get('/get-all-products', [\App\Http\Controllers\API\Products\ProductsController::class, 'index']);
 Route::get('/get-product-clients', [\App\Http\Controllers\API\Products\ProductsController::class, 'get_new_products_for_home_page']);
 Route::get('/get-product-shop', [\App\Http\Controllers\API\Products\ProductsController::class, 'get_new_products_for_shop']);
 Route::get('/get-group-attribute-client/{id}', [\App\Http\Controllers\API\Products\ProductsController::class, 'get_attribute']);
@@ -106,3 +110,5 @@ Route::post('/search-products', [\App\Http\Controllers\API\Products\ProductsCont
 Route::get('/get-list-product/by-categories/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'get_list_product_by_categories']);
 Route::get('/show-category/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'show']);
 Route::post('/filter-product', [\App\Http\Controllers\API\Products\ProductsController::class, 'filter_products']);
+
+

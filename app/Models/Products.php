@@ -55,10 +55,6 @@ class Products extends Model
         );
     }
 
-    public function item_cart(){
-        return $this->hasMany(CartsItems::class, 'products_id');
-    }
-
     public function specs()
     {
         return $this->hasOne(Specs::class, 'id');
