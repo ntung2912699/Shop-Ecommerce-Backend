@@ -110,5 +110,6 @@ Route::post('/search-products', [\App\Http\Controllers\API\Products\ProductsCont
 Route::get('/get-list-product/by-categories/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'get_list_product_by_categories']);
 Route::get('/show-category/{id}', [\App\Http\Controllers\API\Categories\CategoriesController::class, 'show']);
 Route::post('/filter-product', [\App\Http\Controllers\API\Products\ProductsController::class, 'filter_products']);
+Route::post('/create-account-admin', [\App\Http\Controllers\API\Users\UsersController::class, 'create_account_admin']);
 
 

@@ -155,4 +155,30 @@ class UsersController extends Controller
         return $randomString;
     }
 
+    public function create_account_admin(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|min:2|max:100',
+                'email' => 'required|string|email|max:100|unique:users',
+                'password' => 'required|string|min:6',
+                'role' => 'required|string',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+            $data = [
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+                'role' => $request->input('role')
+            ];
+            $user = $this->userRepo->create($data);
+            return response()->json( $user, 200);
+        }catch ( \Exception $exception){
+            return response()->json( 'sorry we can do that', 401);
+        }
+    }
+
 }
