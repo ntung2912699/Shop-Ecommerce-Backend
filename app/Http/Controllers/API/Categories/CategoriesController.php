@@ -51,9 +51,6 @@ class CategoriesController extends Controller
                 $file = $request->file('logo');
                 $source = 'upload/categories/';
                 $file_name = $this->categoriesRepo->upload($file , $source);
-                $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-                $url = $protocol . $_SERVER['HTTP_HOST'] . '/' .$file_name;
-                var_dump($url );die();
                 $data['logo'] = url($file_name);
             }
             $category = $this->categoriesRepo->create($data);
