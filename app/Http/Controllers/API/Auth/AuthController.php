@@ -135,6 +135,22 @@ class AuthController extends Controller
     }
 
     /**
+     * Check user is login
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function checklogin()
+    {
+        $loginInfo = ['isLogin' => false];
+        if (auth()->user()) {
+            $loginInfo = [
+                'isLogin' => true,
+            ];
+        }
+        return response()->json($loginInfo, 200);
+    }
+
+    /**
      * Get the token array structure.
      *
      * @param  string $token

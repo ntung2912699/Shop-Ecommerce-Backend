@@ -26,6 +26,7 @@ Route::group([
     Route::post('/logout', [\App\Http\Controllers\API\Auth\AuthController::class, 'logout']);
     Route::post('/refresh', [\App\Http\Controllers\API\Auth\AuthController::class, 'refresh']);
     Route::get('/user-profile', [\App\Http\Controllers\API\Auth\AuthController::class, 'profile']);
+    Route::get('/check-login', [\App\Http\Controllers\API\Auth\AuthController::class, 'checklogin']);
     Route::post('/check-admin-permission', [\App\Http\Controllers\API\Auth\AuthController::class, 'checkAdminPermission']);
     Route::post('/change-password', [\App\Http\Controllers\API\Auth\AuthController::class, 'changePassword']);
 });
